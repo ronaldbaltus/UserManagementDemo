@@ -1,0 +1,9 @@
+D:\Stack\Projects\dotnet\EvidosTest\UserManagement\bin\Debug\netstandard2.1\UserManagement.deps.json
+D:\Stack\Projects\dotnet\EvidosTest\UserManagement\bin\Debug\netstandard2.1\UserManagement.dll
+D:\Stack\Projects\dotnet\EvidosTest\UserManagement\bin\Debug\netstandard2.1\UserManagement.pdb
+D:\Stack\Projects\dotnet\EvidosTest\UserManagement\obj\Debug\netstandard2.1\UserManagement.AssemblyInfoInputs.cache
+D:\Stack\Projects\dotnet\EvidosTest\UserManagement\obj\Debug\netstandard2.1\UserManagement.AssemblyInfo.cs
+D:\Stack\Projects\dotnet\EvidosTest\UserManagement\obj\Debug\netstandard2.1\UserManagement.csproj.CoreCompileInputs.cache
+D:\Stack\Projects\dotnet\EvidosTest\UserManagement\obj\Debug\netstandard2.1\UserManagement.dll
+D:\Stack\Projects\dotnet\EvidosTest\UserManagement\obj\Debug\netstandard2.1\UserManagement.pdb
+D:\Stack\Projects\dotnet\EvidosTest\UserManagement\obj\Debug\netstandard2.1\UserManagement.csprojAssemblyReference.cache

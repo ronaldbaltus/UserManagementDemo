@@ -1,0 +1,30 @@
+version: '2.0'
+services:
+    WebServer:
+        build:
+            context: .
+            dockerfile: ./WebServer/Dockerfile
+        image: webserver:latest
+        container_name: webserver
+        environment:
+            ConnectionStrings__UserManagement: Server=dbserver;Database=evidostest;Uid=useradmin;Pwd=changeme2;
+        ports:
+        - "80:8000"
+    EventStore:
+        image: redis
+        container_name: eventStore
+        ports:
+        - "6379:6379"
+    DbServer:
+        build:
+            context: Database
+            #dockerfile: Database/Dockerfile
+        image: dbserver:latest
+        container_name: dbserver
+        environment:
+            MYSQL_ROOT_PASSWORD: changeme
+            MYSQL_DATABASE: evidostest
+            MYSQL_USER: useradmin
+            MYSQL_PASSWORD: changeme2
+        ports:
+        - "3306:3306"

@@ -1,0 +1,6 @@
+CREATE TABLE `User` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `EmailAddress` varchar(255) NOT NULL,
+  `Password` varchar(255) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4
