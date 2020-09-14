@@ -7,14 +7,27 @@ services:
         image: webserver:latest
         container_name: webserver
         environment:
-            ConnectionStrings__UserManagement: Server=dbserver;Database=evidostest;Uid=useradmin;Pwd=changeme2;
+            ConnectionStrings__UserManagement: Server=dbserver;Database=UserManagementDemo;Uid=useradmin;Pwd=changeme2;
+            ConnectionStrings__EventStore: "tcp://admin:changeit@eventstore:1113"
+            ASPNETCORE_ENVIRONMENT: Development
         ports:
-        - "80:8000"
+        - "8000:80"
+        links:
+        - EventStore
+        - DbServer
     EventStore:
-        image: redis
-        container_name: eventStore
+        image: eventstore/eventstore:5.0.8-xenial
+        environment:
+        - EVENTSTORE_CLUSTER_SIZE=1
+        - EVENTSTORE_INT_TCP_PORT=1112
+        - EVENTSTORE_EXT_TCP_PORT=1113
+        - EVENTSTORE_INT_HTTP_PORT=2112
+        - EVENTSTORE_EXT_HTTP_PORT=2113
         ports:
-        - "6379:6379"
+        - "1112:1112"
+        - "1113:1113"
+        - "2112:2112"
+        - "2113:2113"
     DbServer:
         build:
             context: Database
@@ -23,7 +36,7 @@ services:
         container_name: dbserver
         environment:
             MYSQL_ROOT_PASSWORD: changeme
-            MYSQL_DATABASE: evidostest
+            MYSQL_DATABASE: UserManagementDemo
             MYSQL_USER: useradmin
             MYSQL_PASSWORD: changeme2
         ports:

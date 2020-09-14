@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace UserManagement.Models
+﻿namespace UserManagement.Models
 {
     /// <summary>
     /// An immutable historic record of what has changed to a resource.

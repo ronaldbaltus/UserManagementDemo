@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,14 +10,17 @@ namespace WebServer.Pages.Users
 {
     public class DetailsModel : PageModel
     {
-        private readonly UserManagement.UserDbContext _context;
+        private readonly UserDbContext _context;
+        private readonly EventSourceRepository _eventSource;
 
-        public DetailsModel(UserManagement.UserDbContext context)
+        public DetailsModel(UserManagement.UserDbContext context, UserManagement.EventSourceRepository eventSource)
         {
             _context = context;
+            _eventSource = eventSource;
         }
 
-        public User User { get; set; }
+        public new User User { get; set; }
+        public IEnumerable<RecordedEvent> Events { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -34,6 +35,9 @@ namespace WebServer.Pages.Users
             {
                 return NotFound();
             }
+
+            Events = await _eventSource.GetEvents(User);
+
             return Page();
         }
     }

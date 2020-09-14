@@ -1,12 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace UserManagement.Models
+﻿namespace UserManagement.Models
 {
+    using System;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Internal;
+    using Microsoft.Extensions.DependencyInjection;
+
     /// <summary>
     /// Class to insert test data into the database.
     /// </summary>
@@ -30,7 +28,7 @@ namespace UserManagement.Models
         /// <param name="serviceProvider">The service provider.</param>
         public static void InitializeUserData(IServiceProvider serviceProvider)
         {
-            using var userContext = new UserDbContext(serviceProvider.GetRequiredService<DbContextOptions<UserDbContext>>());
+            using var userContext = new UserDbContext(serviceProvider.GetRequiredService<DbContextOptions<UserDbContext>>(), serviceProvider.GetRequiredService<EventSourceRepository>());
 
             userContext.Database.EnsureCreated();
 

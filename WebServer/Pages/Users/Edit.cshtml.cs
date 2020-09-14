@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using UserManagement;
 using UserManagement.Models;
 
 namespace WebServer.Pages.Users
@@ -21,8 +17,7 @@ namespace WebServer.Pages.Users
         }
 
         [BindProperty]
-        public User User { get; set; }
-
+        public new User User { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -50,21 +45,21 @@ namespace WebServer.Pages.Users
 
             _context.Attach(User).State = EntityState.Modified;
 
-            //try
-            //{
+            try
+            {
                 await _context.SaveChangesAsync();
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if (!UserExists(User.ID))
-            //    {
-            //        return NotFound();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(User.ID))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return RedirectToPage("./Index");
         }

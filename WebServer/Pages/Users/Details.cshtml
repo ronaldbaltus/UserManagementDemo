@@ -25,6 +25,56 @@
         </dd>
     </dl>
 </div>
+
+<div>
+    <h4>Events</h4>
+    <hr />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(modelItem => Model.Events.First().Created)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Events.First().Type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Events.First().Fieldname)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Events.First().PreviousValue)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Events.First().NewValue)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Events)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Created)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fieldname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PreviousValue)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NewValue)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.User.ID">Edit</a> |
     <a asp-page="./Index">Back to List</a>

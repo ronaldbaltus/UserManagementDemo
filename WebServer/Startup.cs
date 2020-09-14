@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using EventStore.ClientAPI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +23,12 @@ namespace WebServer
         {
             services.AddRazorPages();
             services.AddDbContext<UserManagement.UserDbContext>(options => options.UseMySql(Configuration.GetConnectionString("UserManagement")));
+            services.AddScoped<UserManagement.EventSourceRepository>();
+            services.AddScoped<IEventStoreConnection>((_) => {
+                var conn = EventStoreConnection.Create(new Uri(Configuration.GetConnectionString("EventStore")));
+                conn.ConnectAsync().Wait();
+                return conn;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

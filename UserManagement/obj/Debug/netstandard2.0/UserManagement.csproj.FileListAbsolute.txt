@@ -1,5 +1,0 @@
-D:\Stack\Projects\dotnet\EvidosTest\UserManagement\bin\Debug\netstandard2.0\UserManagement.deps.json
-D:\Stack\Projects\dotnet\EvidosTest\UserManagement\bin\Debug\netstandard2.0\UserManagement.dll
-D:\Stack\Projects\dotnet\EvidosTest\UserManagement\obj\Debug\netstandard2.0\UserManagement.csprojAssemblyReference.cache
-D:\Stack\Projects\dotnet\EvidosTest\UserManagement\obj\Debug\netstandard2.0\UserManagement.AssemblyInfoInputs.cache
-D:\Stack\Projects\dotnet\EvidosTest\UserManagement\obj\Debug\netstandard2.0\UserManagement.AssemblyInfo.cs

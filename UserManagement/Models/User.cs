@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Security.Cryptography;
-
-namespace UserManagement.Models
+﻿namespace UserManagement.Models
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Security.Cryptography;
+    using System.Text;
+    using Newtonsoft.Json;
+
     /// <summary>
     /// Data representation of an user.
     /// </summary>
     public class User
     {
-        private string emailAddressValue = null;
-        private string passwordValue = null;
+        [NotMapped]
+        private string emailAddressValue = string.Empty;
 
         /// <summary>
-        /// Events that happened during the runtime existence of this user.
+        /// Gets the events that happened during the runtime existence of this user.
         /// </summary>
 #if !DEBUG
         [JsonIgnore]
@@ -30,7 +28,11 @@ namespace UserManagement.Models
         /// Gets or sets the unique ID to identify this user.
         /// </summary>
         [Key]
-        public int ID { get; set; }
+        public int ID
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the e-mail address of the user.
@@ -44,14 +46,11 @@ namespace UserManagement.Models
             get => emailAddressValue;
             set
             {
-                //RuntimeEvents.Add(new Event()
-                //{
-                //    Type = emailAddressValue == null ? Event.EventType.Create : Event.EventType.Update,
-                //    Fieldname = nameof(EmailAddress),
-                //    PreviousValue = emailAddressValue,
-                //    NewValue = value,
-                //});
-                emailAddressValue = value;
+                if (emailAddressValue != value)
+                {
+                    emailAddressValue = value;
+                    EmailAddressVerified = false;
+                }
             }
         }
 
@@ -61,23 +60,33 @@ namespace UserManagement.Models
         [Required]
         [MinLength(6)]
         [MaxLength(255)]
+        [NotMapped]
         public string Password
         {
-            get => passwordValue;
+            get => "******";
             set
             {
                 // Quickly hash the password.
-                value = Encoding.UTF8.GetString(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(value)));
-
-                //RuntimeEvents.Add(new Event()
-                //{
-                //    Type = passwordValue == null ? Event.EventType.Create : Event.EventType.Update,
-                //    Fieldname = nameof(Password),
-                //    PreviousValue = passwordValue,
-                //    NewValue = value,
-                //});
-                passwordValue = value;
+                HashedPassword = Encoding.UTF8.GetString(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(value)));
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the hashed value of the password.
+        /// </summary>
+        public string HashedPassword
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the e-mail address is verified.
+        /// </summary>
+        public bool EmailAddressVerified
+        {
+            get;
+            set;
         }
     }
 }
