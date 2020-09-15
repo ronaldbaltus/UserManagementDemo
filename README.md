@@ -1,5 +1,5 @@
 # User Management Demo
-This demo uses [ASP.NET Core](https://dotnet.microsoft.com/download), [MariaDB](https://mariadb.org) and [EventStore](https://eventstore.com/) to make a simple User Management website. MariaDB stores the current state of the users, while the EventStore has a log of all events of the users.
+This demo uses [ASP.NET Core](https://dotnet.microsoft.com/download), [MariaDB](https://mariadb.org) and [EventStore](https://eventstore.com/) to make a simple User Management website. MariaDB stores the current state of the users, while the EventStore has a log of all events of the users. When an user is deleted from the Web interface, than it wel get permanentaly deleted from the MariaDB and EventStore after 30 days (2 minutes in debug mode).
 
 ## How to run?
 

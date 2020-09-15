@@ -29,6 +29,7 @@ namespace WebServer
                 conn.ConnectAsync().Wait();
                 return conn;
             });
+            services.AddHostedService<Services.BackgroundTaskService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

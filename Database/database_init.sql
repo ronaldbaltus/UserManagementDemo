@@ -3,6 +3,7 @@ CREATE TABLE `User` (
   `EmailAddress` varchar(255) NOT NULL,
   `HashedPassword` longtext DEFAULT NULL,
   `EmailAddressVerified` tinyint(1) NOT NULL,
+  `RemovedAt` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `IX_User_EmailAddress` (`EmailAddress`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4

@@ -1,7 +1,9 @@
 ﻿namespace UserManagement
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
@@ -75,6 +77,71 @@
         }
 
         /// <summary>
+        /// Updates the user in the database.
+        /// </summary>
+        /// <param name="user">The user to update.</param>
+        /// <returns>Awaitable task.</returns>
+        public async Task UpdateUser(User user)
+        {
+            Attach(user).State = EntityState.Modified;
+
+            await SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Schedule the user for remove.
+        /// </summary>
+        /// <param name="user">The user that should be removed.</param>
+        /// <returns>Awaitable task.</returns>
+        public Task ScheduleUserForRemove(User user)
+        {
+            user.RemovedAt = DateTime.UtcNow;
+
+            return UpdateUser(user);
+        }
+
+        /// <summary>
+        /// Checks whether the user ID exists in the database.
+        /// </summary>
+        /// <param name="id">ID of the user.</param>
+        /// <returns>Boolean containing whether the user-id was found.</returns>
+        public bool UserExists(int id)
+        {
+            return User.Any(e => e.ID == id);
+        }
+
+        /// <summary>
+        /// Lists all users in the database.
+        /// </summary>
+        /// <returns>List of users.</returns>
+        public IQueryable<User> ListUsers()
+        {
+            return User.Where(u => u.RemovedAt == null);
+        }
+
+        /// <summary>
+        /// Permanently delete users that are scheduled for deletion
+        /// </summary>
+        /// <returns>Awaitable task.</returns>
+        public async Task PermanentlyRemoveScheduledUsers()
+        {
+#if DEBUG
+            var removableUsers = await User.Where(u => u.RemovedAt < DateTime.UtcNow.AddMinutes(-2)).ToListAsync();
+#else
+            var removableUsers = await User.Where(u => u.RemovedAt < DateTime.UtcNow.AddDays(-30)).ToListAsync();
+#endif
+
+            Console.WriteLine($"Removing {removableUsers.Count} users.");
+
+            User.RemoveRange(removableUsers);
+
+            await SaveChangesAsync();
+
+            // Remove related events.
+            removableUsers.ForEach(u => eventSourceRepository.RemoveEvents(u));
+        }
+
+        /// <summary>
         /// Check the changes of a model and add events that are part of the user.
         /// </summary>
         /// <returns>The Task.</returns>
@@ -99,12 +166,12 @@
                             {
                                 Type = entry.State == EntityState.Added ? Event.EventType.Create : Event.EventType.Delete,
                                 Fieldname = property.Metadata.Name,
-                                NewValue = property.CurrentValue.ToString(),
+                                NewValue = property.CurrentValue?.ToString() ?? null,
                             });
                             break;
                         case EntityState.Modified:
-                            var prevValue = dbValues.GetValue<object>(property.Metadata.Name).ToString();
-                            var curValue = property.CurrentValue.ToString();
+                            var prevValue = dbValues.GetValue<object>(property.Metadata.Name)?.ToString() ?? null;
+                            var curValue = property.CurrentValue?.ToString() ?? null;
 
                             if (prevValue != curValue)
                             {

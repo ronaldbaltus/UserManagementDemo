@@ -99,5 +99,25 @@
                 }
             }).Where(e => e != null);
         }
+
+        /// <summary>
+        /// Remove events for an user.
+        /// </summary>
+        /// <param name="user">The user to remove the events.</param>
+        /// <returns>Awaitable task.</returns>
+        public Task RemoveEvents(Models.User user)
+        {
+            return RemoveEvents($"user-{user.ID}");
+        }
+
+        /// <summary>
+        /// Remove events on key.
+        /// </summary>
+        /// <param name="key">The stream key to remove.</param>
+        /// <returns>Awaitable task.</returns>
+        public async Task RemoveEvents(string key)
+        {
+            await eventStoreConnection.DeleteStreamAsync(key, ExpectedVersion.Any);
+        }
     }
 }

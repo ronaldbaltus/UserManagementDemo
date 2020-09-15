@@ -19,7 +19,7 @@ namespace WebServer.Pages.Users
 
         public async Task OnGetAsync()
         {
-            User = await _context.User.ToListAsync();
+            User = await _context.ListUsers().ToListAsync();
         }
     }
 }

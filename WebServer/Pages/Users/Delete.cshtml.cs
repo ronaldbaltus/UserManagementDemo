@@ -45,8 +45,7 @@ namespace WebServer.Pages.Users
 
             if (User != null)
             {
-                _context.User.Remove(User);
-                await _context.SaveChangesAsync();
+                await _context.ScheduleUserForRemove(User);
             }
 
             return RedirectToPage("./Index");

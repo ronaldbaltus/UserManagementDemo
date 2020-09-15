@@ -43,11 +43,9 @@ namespace WebServer.Pages.Users
                 return Page();
             }
 
-            _context.Attach(User).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.UpdateUser(User);
             }
             catch (DbUpdateConcurrencyException)
             {

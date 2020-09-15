@@ -1,5 +1,6 @@
 ﻿namespace UserManagement.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -84,6 +85,15 @@
         /// Gets or sets a value indicating whether the e-mail address is verified.
         /// </summary>
         public bool EmailAddressVerified
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the date and time when this user was scheduled for deletion.
+        /// </summary>
+        public DateTime? RemovedAt
         {
             get;
             set;
